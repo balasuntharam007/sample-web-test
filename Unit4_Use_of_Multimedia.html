@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 04 · Use of Multimedia · Grade 11 ICT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0A1930;
+  --bg-panel: #0E2340;
+  --bg-panel-alt: #0B1D38;
+  --border: #1F3B60;
+  --border-soft: #17304F;
+  --text: #E7EEF7;
+  --text-dim: #93A9C4;
+  --text-faint: #5D7595;
+  --accent: #FBBF24;
+  --accent-soft: #FBBF2433;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --display: 'Space Grotesk', var(--sans);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  line-height: 1.5;
+  min-height: 100vh;
+  position: relative;
+}
+
+.gridbg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(var(--border-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border-soft) 1px, transparent 1px);
+  background-size: 40px 40px;
+  opacity: 0.35;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 40%, transparent 100%);
+}
+
+main { position: relative; z-index: 1; max-width: 980px; margin: 0 auto; padding: 0 20px 60px; }
+
+/* ---------- Top bar ---------- */
+.topbar {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--border);
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.wordmark-main {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.06em;
+  color: var(--text);
+  display: block;
+}
+.wordmark-sub {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  color: var(--text-faint);
+}
+
+.pillnav { display: flex; gap: 6px; flex-wrap: wrap; }
+.pill {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-dim);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px 9px;
+  text-decoration: none;
+  transition: all .15s ease;
+  letter-spacing: 0.04em;
+}
+.pill:hover { border-color: var(--pill-accent, var(--accent)); color: var(--text); }
+.pill.active {
+  background: var(--pill-accent, var(--accent));
+  border-color: var(--pill-accent, var(--accent));
+  color: #0A1930;
+  font-weight: 600;
+}
+
+/* ---------- Title block ---------- */
+.titleblock {
+  display: flex;
+  align-items: flex-start;
+  gap: 22px;
+  padding: 40px 0 28px;
+  border-bottom: 1px dashed var(--border);
+  margin-bottom: 28px;
+}
+.titleblock-number {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 3px 9px;
+  white-space: nowrap;
+  margin-top: 6px;
+}
+.titleblock h1 {
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: clamp(28px, 4.4vw, 42px);
+  line-height: 1.08;
+  margin: 0 0 8px;
+  white-space: pre-line;
+  letter-spacing: -0.01em;
+}
+.titleblock-caption {
+  font-family: var(--sans);
+  color: var(--text-dim);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* ---------- Tabs ---------- */
+.tabs { display: flex; gap: 4px; margin-bottom: 18px; }
+.tab {
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  background: transparent;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  border-bottom: none;
+  padding: 9px 16px;
+  border-radius: 6px 6px 0 0;
+  cursor: pointer;
+  transition: color .15s ease, background .15s ease;
+}
+.tab:hover { color: var(--text); }
+.tab.active {
+  color: var(--bg);
+  background: var(--accent);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+/* ---------- Panel ---------- */
+.panel {
+  background: var(--bg-panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 22px 24px 28px;
+}
+.panel.hidden { display: none; }
+.panel-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border-soft);
+}
+.panel-head h2 {
+  font-family: var(--display);
+  font-size: 15px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin: 0;
+  font-weight: 600;
+}
+.panel-actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
+.ghostbtn {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-dim);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: all .15s ease;
+}
+.ghostbtn:hover { border-color: var(--accent); color: var(--text); }
+
+#searchNotes {
+  font-family: var(--sans);
+  font-size: 13px;
+  background: var(--bg-panel-alt);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 6px 10px;
+  color: var(--text);
+  min-width: 180px;
+}
+#searchNotes:focus { outline: none; border-color: var(--accent); }
+#searchNotes::placeholder { color: var(--text-faint); }
+
+/* ---------- Mind map (terminal tree) ---------- */
+.treewrap { font-family: var(--mono); font-size: 13.5px; }
+.root-node {
+  display: inline-block;
+  font-family: var(--display);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 8px 16px;
+  border-radius: 6px;
+  margin-bottom: 14px;
+  white-space: pre-line;
+}
+ul.tree, .tree ul {
+  list-style: none;
+  margin: 0;
+  padding-left: 22px;
+  border-left: 1px dashed var(--border);
+}
+ul.tree { padding-left: 0; border-left: none; }
+.tree li { position: relative; margin: 2px 0; }
+.tree > li { border-left: 1px dashed var(--border); }
+.tree li:last-child { }
+
+.node-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px 5px 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  position: relative;
+}
+.node-row::before {
+  content: "├─";
+  position: absolute;
+  left: -13px;
+  color: var(--text-faint);
+  font-size: 12px;
+}
+li:last-child > .node-row::before { content: "└─"; }
+.node-row:hover { background: var(--bg-panel-alt); }
+
+.node-toggle {
+  width: 14px;
+  color: var(--accent);
+  font-size: 11px;
+  flex-shrink: 0;
+  transition: transform .15s ease;
+}
+.node-toggle.leaf { visibility: hidden; }
+li.expanded > .node-row .node-toggle { transform: rotate(90deg); }
+
+.node-label { color: var(--text); }
+.node-row[data-level="1"] .node-label { color: var(--accent); font-weight: 600; }
+.node-row[data-level="2"] .node-label { color: var(--text); }
+.node-row[data-level="3"] .node-label { color: var(--text-dim); }
+
+.node-children { display: none; }
+li.expanded > .node-children { display: block; }
+
+.node-points {
+  display: none;
+  list-style: none;
+  margin: 4px 0 8px 14px;
+  padding: 8px 12px;
+  border-left: 2px solid var(--accent-soft);
+  background: var(--bg-panel-alt);
+  border-radius: 0 5px 5px 0;
+  font-family: var(--sans);
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+li.expanded > .node-points { display: block; }
+.node-points li { border: none; margin: 3px 0; padding: 0; }
+.node-points li::before { content: "—"; color: var(--accent); margin-right: 6px; }
+
+/* ---------- Short notes (accordion) ---------- */
+.note-h1, .note-h2, .note-h3 { margin: 0; }
+details.note-block {
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  margin-bottom: 10px;
+  background: var(--bg-panel-alt);
+  overflow: hidden;
+}
+details.note-block[data-level="2"], details.note-block[data-level="3"] {
+  margin-left: 18px;
+  border-color: var(--border-soft);
+}
+details.note-block > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--display);
+  font-weight: 600;
+}
+details.note-block > summary::-webkit-details-marker { display: none; }
+details.note-block > summary::before {
+  content: "+";
+  color: var(--accent);
+  font-family: var(--mono);
+  width: 14px;
+  flex-shrink: 0;
+}
+details.note-block[open] > summary::before { content: "–"; }
+details.note-block[data-level="1"] > summary { font-size: 16px; color: var(--accent); }
+details.note-block[data-level="2"] > summary { font-size: 14.5px; color: var(--text); }
+details.note-block[data-level="3"] > summary { font-size: 13.5px; color: var(--text-dim); }
+
+.note-points {
+  margin: 0;
+  padding: 0 20px 16px 40px;
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+.note-points li { margin: 6px 0; }
+.note-points li::marker { color: var(--accent); }
+.note-children { padding: 0 12px 12px; }
+
+mark { background: var(--accent-soft); color: var(--text); border-radius: 2px; padding: 0 2px; }
+.no-results { font-family: var(--mono); font-size: 13px; color: var(--text-faint); padding: 20px 4px; }
+.hidden { display: none !important; }
+
+/* ---------- Footer title block ---------- */
+.titleblockfooter {
+  margin-top: 40px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  font-family: var(--mono);
+}
+.tb-cell {
+  padding: 10px 14px;
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 88px;
+}
+.tb-cell.grow { flex: 1; min-width: 160px; }
+.tb-label { font-size: 9.5px; letter-spacing: 0.1em; color: var(--text-faint); text-transform: uppercase; }
+.tb-value { font-size: 12.5px; color: var(--text); white-space: pre-line; }
+.tb-nav { display: flex; margin-left: auto; }
+.navarrow {
+  padding: 10px 16px;
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  border-left: 1px solid var(--border);
+  transition: background .15s ease;
+  white-space: nowrap;
+}
+.navarrow:hover { background: var(--bg-panel-alt); }
+.navarrow.disabled { color: var(--text-faint); pointer-events: none; }
+
+/* ---------- Print ---------- */
+@media print {
+  .gridbg, .topbar, .tabs, .panel-actions, .titleblockfooter .tb-nav, #view-map { display: none !important; }
+  .panel { border: none; background: none; }
+  #view-notes { display: block !important; }
+  body { background: white; color: black; }
+  details.note-block { break-inside: avoid; border-color: #ccc; }
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 640px) {
+  .titleblock { flex-direction: column; gap: 10px; }
+  .panel { padding: 16px; }
+  .tb-cell { min-width: 72px; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+/* Focus visibility */
+a:focus-visible, button:focus-visible, .node-row:focus-visible, input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+</style>
+</head>
+<body>
+
+<div class="gridbg" aria-hidden="true"></div>
+
+<header class="topbar">
+  <div class="wordmark">
+    <span class="wordmark-main">GRADE&nbsp;11</span>
+    <span class="wordmark-sub">ICT · STUDY&nbsp;SHEETS</span>
+  </div>
+  <nav class="pillnav" aria-label="Unit navigation">
+    <a class="pill" href="Unit1_Programming.html" style="--pill-accent:#38BDF8">01</a>
+<a class="pill" href="Unit2_System_Development_Life_Cycle.html" style="--pill-accent:#34D399">02</a>
+<a class="pill" href="Unit3_Internet_and_Electronic_Mail.html" style="--pill-accent:#A78BFA">03</a>
+<a class="pill active" href="unit4.html" style="--pill-accent:#FBBF24">04</a>
+<a class="pill" href="Unit5_Web_Designing_Using_Multimedia.html" style="--pill-accent:#FB7185">05</a>
+<a class="pill" href="Unit6_ICT_and_Society.html" style="--pill-accent:#FB923C">06</a>
+  </nav>
+</header>
+
+<main>
+  <section class="titleblock">
+    <div class="titleblock-number">§04</div>
+    <div class="titleblock-text">
+      <h1>Use of Multimedia</h1>
+      <p class="titleblock-caption">Interactive mind map &amp; short notes — Grade 11 Information &amp; Communication Technology</p>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button class="tab active" role="tab" data-tab="map" aria-selected="true">Mind Map</button>
+    <button class="tab" role="tab" data-tab="notes" aria-selected="false">Short Notes</button>
+  </div>
+
+  <section class="panel view" id="view-map" data-view="map">
+    <div class="panel-head">
+      <h2>Unit Structure</h2>
+      <div class="panel-actions">
+        <button id="expandAllMap" class="ghostbtn">Expand all</button>
+        <button id="collapseAllMap" class="ghostbtn">Collapse all</button>
+      </div>
+    </div>
+    <div class="treewrap">
+      <div class="root-node">Use of Multimedia</div>
+      <ul class="tree" id="mindmap-tree"></ul>
+    </div>
+  </section>
+
+  <section class="panel view hidden" id="view-notes" data-view="notes">
+    <div class="panel-head">
+      <h2>Short Notes</h2>
+      <div class="panel-actions">
+        <input id="searchNotes" type="search" placeholder="Search this unit…" autocomplete="off">
+        <button id="expandAllNotes" class="ghostbtn">Expand all</button>
+        <button id="collapseAllNotes" class="ghostbtn">Collapse all</button>
+        <button id="printNotes" class="ghostbtn">Print</button>
+      </div>
+    </div>
+    <div id="notes-content"></div>
+    <p id="noResults" class="no-results hidden">No headings match your search.</p>
+  </section>
+
+  <footer class="titleblockfooter">
+    <div class="tb-cell"><span class="tb-label">Subject</span><span class="tb-value">ICT</span></div>
+    <div class="tb-cell"><span class="tb-label">Grade</span><span class="tb-value">11</span></div>
+    <div class="tb-cell"><span class="tb-label">Sheet</span><span class="tb-value">04 / 06</span></div>
+    <div class="tb-cell"><span class="tb-label">Scale</span><span class="tb-value">N.T.S.</span></div>
+    <div class="tb-cell grow"><span class="tb-label">Unit</span><span class="tb-value">Use of Multimedia</span></div>
+    <div class="tb-nav"><a class="navarrow" href="unit3.html">&larr; UNIT 03</a><a class="navarrow" href="unit5.html">UNIT 05 &rarr;</a></div>
+  </footer>
+</main>
+
+<script id="unit-data" type="application/json">[{"h": "4.1 Digital Graphics", "points": ["Digital graphics are pictures/images represented and stored in digital (binary) form.", "Raster (bitmap) graphics: made of pixels; quality depends on resolution; best for photos (e.g. JPG, PNG).", "Vector graphics: made of mathematical paths/shapes; can be resized without losing quality; best for logos/diagrams.", "Colour depth (bits per pixel) determines how many colours an image can display \u2014 higher bpp gives richer colour range.", "Image editing software (e.g. GIMP) provides tools such as the Main Toolbox, Tool Options, Image Window, Layers/Channels/Paths, and Brushes/Patterns/Gradients for creating and editing graphics.", "Layers allow different parts of an image to be edited independently and combined into a final graphic."], "children": []}, {"h": "4.2 Two-Dimensional Animation", "points": ["Animation is created by displaying a rapid sequence of still frames to give the illusion of movement.", "Frame-by-frame animation vs. Tweening: tween frames are automatically generated between two keyframes to create smooth motion.", "Animation software tools typically include: Drawing Toolbar, Built-in Player, Layers, Timeline, Work Stage, Geometrical Properties/Shapes, Colours and a Properties Window.", "The Timeline controls the sequence and timing of frames in the animation."], "children": []}, {"h": "4.3 Audio Content", "points": ["Digital audio/sound files can be recorded, edited and mixed using audio-editing software (e.g. Audacity).", "Common tools/panels: Menu Bar, Transport Toolbar, Tools Toolbar, Recording/Playback Meters, Mixer Toolbar, Timeline, Track Control Panel and Audio Track.", "Sound effects and edited audio can be added to multimedia projects or saved/exported for use elsewhere."], "children": []}, {"h": "4.4 Creating a Video Clip", "points": ["Video editing software combines still images, video, and audio into a finished video clip.", "Key work areas: Preview/Player Pane (to view the output), Timeline Stage (to arrange clips in sequence), and Editing Function Panel (tools for cutting, transitions, effects).", "Typical workflow: import images/clips \u2192 arrange on the timeline \u2192 apply transitions and captions \u2192 add audio/music \u2192 preview and edit \u2192 export the final video."], "children": []}]</script>
+<script>
+(function () {
+  "use strict";
+
+  var DATA = JSON.parse(document.getElementById("unit-data").textContent);
+
+  /* ---------------- Tabs ---------------- */
+  var tabs = document.querySelectorAll(".tab");
+  var views = document.querySelectorAll(".view");
+  tabs.forEach(function (tab) {
+    tab.addEventListener("click", function () {
+      tabs.forEach(function (t) { t.classList.remove("active"); t.setAttribute("aria-selected", "false"); });
+      tab.classList.add("active");
+      tab.setAttribute("aria-selected", "true");
+      var target = tab.getAttribute("data-tab");
+      views.forEach(function (v) {
+        v.classList.toggle("hidden", v.getAttribute("data-view") !== target);
+      });
+    });
+  });
+
+  /* ---------------- Mind map (interactive tree) ---------------- */
+  var mapRoot = document.getElementById("mindmap-tree");
+
+  function buildNode(node, level) {
+    var li = document.createElement("li");
+
+    var row = document.createElement("div");
+    row.className = "node-row";
+    row.setAttribute("data-level", level);
+    row.setAttribute("tabindex", "0");
+    row.setAttribute("role", "button");
+
+    var hasKids = node.children && node.children.length > 0;
+    var hasPoints = node.points && node.points.length > 0;
+
+    var toggle = document.createElement("span");
+    toggle.className = "node-toggle" + (hasKids || hasPoints ? "" : " leaf");
+    toggle.textContent = "▸";
+    row.appendChild(toggle);
+
+    var label = document.createElement("span");
+    label.className = "node-label";
+    label.textContent = node.h;
+    row.appendChild(label);
+
+    li.appendChild(row);
+
+    if (hasPoints) {
+      var pts = document.createElement("ul");
+      pts.className = "node-points";
+      node.points.forEach(function (p) {
+        var pli = document.createElement("li");
+        pli.textContent = p;
+        pts.appendChild(pli);
+      });
+      li.appendChild(pts);
+    }
+
+    if (hasKids) {
+      var childUl = document.createElement("ul");
+      childUl.className = "node-children";
+      node.children.forEach(function (child) {
+        childUl.appendChild(buildNode(child, level + 1));
+      });
+      li.appendChild(childUl);
+    }
+
+    if (hasKids || hasPoints) {
+      row.addEventListener("click", function () {
+        li.classList.toggle("expanded");
+      });
+      row.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          li.classList.toggle("expanded");
+        }
+      });
+    }
+
+    return li;
+  }
+
+  DATA.forEach(function (branch) {
+    mapRoot.appendChild(buildNode(branch, 1));
+  });
+
+  document.getElementById("expandAllMap").addEventListener("click", function () {
+    mapRoot.querySelectorAll("li").forEach(function (li) { li.classList.add("expanded"); });
+  });
+  document.getElementById("collapseAllMap").addEventListener("click", function () {
+    mapRoot.querySelectorAll("li").forEach(function (li) { li.classList.remove("expanded"); });
+  });
+
+  /* ---------------- Short notes (accordion) ---------------- */
+  var notesRoot = document.getElementById("notes-content");
+
+  function buildNote(node, level) {
+    var det = document.createElement("details");
+    det.className = "note-block";
+    det.setAttribute("data-level", level);
+    det.setAttribute("data-search-text", (node.h + " " + (node.points || []).join(" ")).toLowerCase());
+    if (level === 1) det.open = true;
+
+    var summary = document.createElement("summary");
+    summary.textContent = node.h;
+    det.appendChild(summary);
+
+    var wrap = document.createElement("div");
+
+    if (node.points && node.points.length) {
+      var ul = document.createElement("ul");
+      ul.className = "note-points";
+      node.points.forEach(function (p) {
+        var li = document.createElement("li");
+        li.textContent = p;
+        ul.appendChild(li);
+      });
+      wrap.appendChild(ul);
+    }
+
+    if (node.children && node.children.length) {
+      var childWrap = document.createElement("div");
+      childWrap.className = "note-children";
+      node.children.forEach(function (child) {
+        childWrap.appendChild(buildNote(child, level + 1));
+      });
+      wrap.appendChild(childWrap);
+    }
+
+    det.appendChild(wrap);
+    return det;
+  }
+
+  DATA.forEach(function (branch) {
+    notesRoot.appendChild(buildNote(branch, 1));
+  });
+
+  document.getElementById("expandAllNotes").addEventListener("click", function () {
+    notesRoot.querySelectorAll("details").forEach(function (d) { d.open = true; });
+  });
+  document.getElementById("collapseAllNotes").addEventListener("click", function () {
+    notesRoot.querySelectorAll("details").forEach(function (d) { d.open = false; });
+  });
+  document.getElementById("printNotes").addEventListener("click", function () {
+    notesRoot.querySelectorAll("details").forEach(function (d) { d.open = true; });
+    window.print();
+  });
+
+  /* ---------------- Search / filter ---------------- */
+  var searchInput = document.getElementById("searchNotes");
+  var noResults = document.getElementById("noResults");
+
+  function clearHighlights(root) {
+    root.querySelectorAll("mark").forEach(function (m) {
+      var parent = m.parentNode;
+      parent.replaceChild(document.createTextNode(m.textContent), m);
+      parent.normalize();
+    });
+  }
+
+  function highlightText(el, query) {
+    Array.from(el.childNodes).forEach(function (node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        var idx = node.textContent.toLowerCase().indexOf(query);
+        if (idx !== -1) {
+          var before = node.textContent.slice(0, idx);
+          var match = node.textContent.slice(idx, idx + query.length);
+          var after = node.textContent.slice(idx + query.length);
+          var frag = document.createDocumentFragment();
+          frag.appendChild(document.createTextNode(before));
+          var mark = document.createElement("mark");
+          mark.textContent = match;
+          frag.appendChild(mark);
+          frag.appendChild(document.createTextNode(after));
+          node.parentNode.replaceChild(frag, node);
+        }
+      } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== "MARK") {
+        highlightText(node, query);
+      }
+    });
+  }
+
+  searchInput.addEventListener("input", function () {
+    var query = searchInput.value.trim().toLowerCase();
+    var allBlocks = notesRoot.querySelectorAll("details.note-block");
+    clearHighlights(notesRoot);
+
+    if (!query) {
+      allBlocks.forEach(function (d) {
+        d.classList.remove("hidden");
+        d.open = d.getAttribute("data-level") === "1";
+      });
+      noResults.classList.add("hidden");
+      return;
+    }
+
+    var anyVisible = false;
+    allBlocks.forEach(function (d) { d.classList.add("hidden"); });
+
+    allBlocks.forEach(function (d) {
+      var text = d.getAttribute("data-search-text") || "";
+      if (text.indexOf(query) !== -1) {
+        anyVisible = true;
+        d.classList.remove("hidden");
+        d.open = true;
+        var summary = d.querySelector(":scope > summary");
+        if (summary && summary.textContent.toLowerCase().indexOf(query) !== -1) {
+          highlightText(summary, query);
+        }
+        d.querySelectorAll(".note-points li").forEach(function (li) {
+          if (li.textContent.toLowerCase().indexOf(query) !== -1) highlightText(li, query);
+        });
+        // reveal ancestor chain
+        var p = d.parentElement;
+        while (p && p !== notesRoot) {
+          if (p.tagName === "DETAILS") { p.classList.remove("hidden"); p.open = true; }
+          p = p.parentElement;
+        }
+      }
+    });
+
+    noResults.classList.toggle("hidden", anyVisible);
+  });
+})();
+
+</script>
+</body>
+</html>
